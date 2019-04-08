@@ -1,0 +1,129 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<beans xmlns="http://www.springframework.org/schema/beans"
+       xmlns:context="http://www.springframework.org/schema/context"
+       xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:util="http://www.springframework.org/schema/util"
+       xmlns:p="http://www.springframework.org/schema/p"
+       xsi:schemaLocation="http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans.xsd http://www.springframework.org/schema/util http://www.springframework.org/schema/util/spring-util.xsd">
+
+    <!--全类名
+     class :bean的全类名 通过反射的方式创建bean 所以要求bean必须要有构造方法
+     id: 表示容器中的bean 通过id来引用bean
+     使用的是setter方法注入
+    -->
+    <bean id="helloWord" class="xzq.spring.HelloWorld">
+        <property name="name" value="xzq"></property>
+    </bean>
+    <!--<bean id="helloWord2" class="xzq.spring.HelloWorld">-->
+        <!--<property name="name" value="xzq"></property>-->
+    <!--</bean>-->
+
+    <!-- 通过构造方法来为bean的属性赋值-->
+    <!--使用构造器注入属性的时候可以用index和type来区分重载的构造方法-->
+    <bean id="car" class="xzq.spring.Car">
+    <constructor-arg value="Audi" type="java.lang.String"></constructor-arg>
+    <constructor-arg value="shanghai" type="java.lang.String"></constructor-arg>
+    <constructor-arg value="300000" type="double"></constructor-arg>
+
+</bean>
+    <bean id="car2" class="xzq.spring.Car">
+        <constructor-arg value="BMW" type="java.lang.String" ></constructor-arg>
+        <!--特殊标记 ![CDATA[<shanghai>]]-->
+        <!--Car{brand='BMW', corp='<shanghai>', price=0.0, maxSpeed=222}-->
+        <constructor-arg  type="java.lang.String">
+            <value><![CDATA[<shanghai>]]></value>
+        </constructor-arg>
+        <!--<constructor-arg value="240" type="int"></constructor-arg>-->
+        <constructor-arg type="int">
+            <!--maxSpeed=222-->
+            <value>222</value>
+        </constructor-arg>
+    </bean>
+
+    <bean id="person" class="xzq.spring.Person">
+        <property name="name" value="Ton"></property>
+        <property name="age" value="42"></property>
+        <!--建立bean之间的关联-->
+        <!--<property name="car"  ref="car2"></property>-->
+        <!--<property name="car">-->
+            <!--<ref bean="car2"/>-->
+        <!--</property>-->
+
+        <!--内部bean 不能被外部bean引用 只能在内部使用-->
+        <property name="car" >
+            <bean class="xzq.spring.Car">
+                <constructor-arg value="Ford"></constructor-arg>
+                <constructor-arg value="beijng"></constructor-arg>
+                <constructor-arg value="200000" type="double"></constructor-arg>
+            </bean>
+        </property>
+        <!--Person{name='Ton', age=42, car=Car{brand='Ford', corp='beijng', price=200000.0, maxSpeed=0}}-->
+    </bean>
+     <!--使用构造器-->
+    <bean id="person2" class="xzq.spring.Person">
+        <constructor-arg value="Jerry"></constructor-arg>
+        <constructor-arg value="22"></constructor-arg>
+        <constructor-arg ref="car"></constructor-arg>
+        <!--Person{name='Jerry', age=22, car=Car{brand='Audi', corp='shanghai', price=300000.0, maxSpeed=0}}-->
+        <!--测试赋值null-->
+        <!--<constructor-arg><null /></constructor-arg>-->
+        <!--Person{name='Jerry', age=22, car=null}-->
+        <!--级联属性赋值  为car的maxspeed赋值  必须先有car 才能为他的属性赋值 Spring不会自动给你创建出car-->
+        <property name="car.maxSpeed" value="288"></property>
+        <!--Person{name='Jerry', age=22, car=Car{brand='Audi', corp='shanghai', price=300000.0, maxSpeed=288}}-->
+    </bean>
+
+    <!--测试集合属性 list set map-->
+    <bean id="person3" class="xzq.spring.colletions.Person">
+        <property name="name" value="Mike"></property>
+        <property name="age" value="32"></property>
+        <property name="cars" >
+            <list>
+                <ref bean="car"></ref>
+                <ref bean="car2"></ref>
+            </list>
+        </property>
+    </bean>
+    <!--测试集合属性 map-->
+    <bean id="newperson" class="xzq.spring.colletions.NewPerson" >
+        <property name="name" value="Rose"></property>
+        <property name="age" value="24"></property>
+        <property name="cars" >
+            <map>
+                <entry key="AA" value-ref="car"></entry>
+                <entry key="BB" value-ref="car2"></entry>
+            </map>
+        </property>
+    </bean>
+    <!--配置properties属性-->
+    <bean id="datasource" class="xzq.spring.colletions.DataSource">
+        <property name="properties">
+            <props>
+                <prop key="username">root</prop>
+                <prop key="password">1234</prop>
+                <prop key="jdbcUrl">jdbc:mysql://test</prop>
+                <prop key="driverClass">com.mysql.jdbc.Driver</prop>
+            </props>
+        </property>
+    </bean>
+    <!--把集合的配置拿出来 配置独立的集合bean (方便其他bean所引用)导入util命名空间 idea很便捷-->
+    <util:list id="cars">
+        <ref bean="car"/>
+        <ref bean="car2"/>
+    </util:list>
+    <bean id="person4" class="xzq.spring.colletions.Person">
+        <property name="name" value="Jack"></property>
+        <property name="age" value="19"></property>
+        <property name="cars" ref="cars"></property>
+
+    </bean>
+
+    <!--P命名空间bean赋值 首先引入P命名空间
+         xmlns:context="http://www.springframework.org/schema/context"
+       xmlns:p="http://www.springframework.org/schema/p"
+    -->
+     <bean id="person5" class="xzq.spring.colletions.Person" p:name="xzq" p:age="24" p:cars-ref="cars">
+
+     </bean>
+
+
+</beans>

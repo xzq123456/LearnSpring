@@ -1,0 +1,29 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<beans xmlns="http://www.springframework.org/schema/beans"
+       xmlns:context="http://www.springframework.org/schema/context"
+       xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:util="http://www.springframework.org/schema/util"
+       xmlns:p="http://www.springframework.org/schema/p" xmlns:aop="http://www.springframework.org/schema/aop"
+       xsi:schemaLocation="http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans.xsd http://www.springframework.org/schema/util http://www.springframework.org/schema/util/spring-util.xsd http://www.springframework.org/schema/context http://www.springframework.org/schema/context/spring-context-4.2.xsd http://www.springframework.org/schema/aop http://www.springframework.org/schema/aop/spring-aop.xsd">
+
+    <bean id="arithemeticCalculator" class="xzq.spring.Aop3.ArithmeticCalculatorImpl"></bean>
+
+    <!--配置切面的Bean-->
+    <bean  id="loggingAspect" class="xzq.spring.Aop3.LoggingAspect"></bean>
+    <bean id="validationAspect" class="xzq.spring.Aop3.ValidationAspect"></bean>
+    <!--配置Aop-->
+    <aop:config>
+        <!--配置切点表达式-->
+        <aop:pointcut id="pointcut" expression="execution(public int xzq.spring.Aop3.ArithmeticCalculatorImpl.*(int,int))"/>
+       <!--配置切面以及通知-->
+        <aop:aspect ref="loggingAspect" order="1">
+            <!--<aop:before method="beforeMethod" pointcut-ref="pointcut"/>-->
+            <!--<aop:after method="afterMethod" pointcut-ref="pointcut"/>-->
+            <!--<aop:after-throwing method="afterThrowing" throwing="ex" pointcut-ref="pointcut"/>-->
+            <!--<aop:after-returning method="afterReturning" pointcut-ref="pointcut" returning="result"/>-->
+            <aop:around method="aroundMethod" pointcut-ref="pointcut" />
+        </aop:aspect>
+        <aop:aspect ref="validationAspect" order="2">
+            <aop:before method="volidation" pointcut-ref="pointcut"/>
+        </aop:aspect>
+    </aop:config>
+</beans>

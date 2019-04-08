@@ -1,0 +1,26 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<beans xmlns="http://www.springframework.org/schema/beans"
+       xmlns:context="http://www.springframework.org/schema/context"
+       xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:util="http://www.springframework.org/schema/util"
+       xmlns:p="http://www.springframework.org/schema/p"
+       xsi:schemaLocation="http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans.xsd http://www.springframework.org/schema/util http://www.springframework.org/schema/util/spring-util.xsd http://www.springframework.org/schema/context http://www.springframework.org/schema/context/spring-context-4.2.xsd">
+
+    <!--指定ioc容器扫描的包-->
+     <context:component-scan base-package="xzq.spring.annotation"></context:component-scan>
+  <!--只扫描指定的资源  resource-pattern
+     <context:component-scan base-package="xzq.spring.annotation" resource-pattern="repository/*.class"></context:component-scan>
+  -->
+
+    <!--<context:component-scan base-package="xzq.spring.annotation" use-default-filters="false">-->
+    <!--设置不包含什么组件 exclude-filter-->
+    <!--<context:exclude-filter type="annotation" expression="org.springframework.stereotype.Repository" />-->
+        <!--<context:exclude-filter type="assignable" expression="xzq.spring.annotation.repository.UserRepository" />-->
+
+    <!--设定只扫描指定的  并且设定use-default-filters="false" -->
+    <!--<context:include-filter type="annotation" expression="org.springframework.stereotype.Repository"/>-->
+        <!--<context:include-filter type="assignable" expression="xzq.spring.annotation.repository.UserRepository" />-->
+   <!--</context:component-scan>-->
+
+
+
+</beans>

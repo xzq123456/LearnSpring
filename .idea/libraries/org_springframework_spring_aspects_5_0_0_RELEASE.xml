@@ -1,0 +1,11 @@
+<component name="libraryTable">
+  <library name="org.springframework:spring-aspects:5.0.0.RELEASE" type="repository">
+    <properties maven-id="org.springframework:spring-aspects:5.0.0.RELEASE" />
+    <CLASSES>
+      <root url="jar://$PROJECT_DIR$/lib/spring-aspects-5.0.0.RELEASE.jar!/" />
+      <root url="jar://$PROJECT_DIR$/lib/aspectjweaver-1.8.11.jar!/" />
+    </CLASSES>
+    <JAVADOC />
+    <SOURCES />
+  </library>
+</component>
