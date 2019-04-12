@@ -14,9 +14,9 @@ public class UserService {
     @Qualifier("userRepositoryImpl")//首字母小写
     private UserRepository userRepository;
 
-//    public void setUserRepository(UserRepository userRepository){
-//        this.userRepository=userRepository
-//    }
+    public void setUserRepository(UserRepository userRepository){
+        this.userRepository=userRepository;
+    }
 
     public void add(){
         System.out.println("UserService add()");

@@ -23,8 +23,6 @@ public class LoggingAspect {
     public void  declareJoinpointException(){
 
     }
-
-
     //在main调用的方法与注解的方法一致的时候，会自动为该方法所在的类生成代理对象，并先执行该方法
 //    @Before("execution(public int xzq.spring.Aop2.ArithmeticCalculatorImpl.add(int,int))")
     //Aspect 表达式  @Before("execution(public int xzq.spring.Aop2.ArithmeticCalculatorImpl.*(int,int))")
@@ -35,12 +33,12 @@ public class LoggingAspect {
         List<Object> args=Arrays.asList(joinPoint.getArgs());
        System.out.println("before method"+methodName+"begin with "+args);
    }
-//   //后置通知（无论是否发生异常）
-////    @After("execution(* xzq.spring.Aop2.ArithmeticCalculatorImpl.*(int,int))")
-////    public  void afterMethod(JoinPoint joinPoint){
-////        String methodName=joinPoint.getSignature().getName();
-////        System.out.println("method  "+methodName+"  end ");
-////    }
+  // 后置通知（无论是否发生异常）
+    @After("execution(* xzq.spring.Aop2.ArithmeticCalculatorImpl.*(int,int))")
+    public  void afterMethod(JoinPoint joinPoint){
+        String methodName=joinPoint.getSignature().getName();
+        System.out.println("method  "+methodName+"  end ");
+    }
 //  //返回通知  方法正常结束后执行（可以访问到返回值）
 //  @AfterReturning(value="execution(* xzq.spring.Aop2.ArithmeticCalculatorImpl.*(int,int))",returning ="result")
 //  public  void afterReturning(JoinPoint joinPoint,Object result){

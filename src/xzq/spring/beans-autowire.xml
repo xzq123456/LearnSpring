@@ -5,16 +5,14 @@
        xmlns:p="http://www.springframework.org/schema/p"
        xsi:schemaLocation="http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans.xsd http://www.springframework.org/schema/util http://www.springframework.org/schema/util/spring-util.xsd">
 
-    <bean id="address" class="xzq.spring.Autowire.Address" p:city="Beijing" p:street="huilongguan"   >
-    <!--<bean id="address2" class="xzq.spring.Autowire.Address" p:city="nanjing" p:street="xxx"   >-->
-
-    </bean>
+    <bean id="address" class="xzq.spring.Autowire.Address" p:city="Beijing" p:street="huilongguan"   ></bean>
+    <bean id="address2" class="xzq.spring.Autowire.Address" p:city="nanjing" p:street="xxx"   ></bean>
     <bean id="car" class="xzq.spring.Autowire.Car" p:brand="Ford" p:price="200000"></bean>
     <!--<bean id="person" class="xzq.spring.Autowire.Person" p:name="xzq" p:car-ref="car" p:address-ref="address"></bean>-->
     <!--自动装配 car和address这两个bean的名字和person的setXxx对应 所以可以匹配上 ByName-->
     <!--<bean id="person" class="xzq.spring.Autowire.Person" p:name="xzq" autowire="byName"></bean>-->
     <!--自动装配 ByType根据属性的类型 但是有缺点:若IOC有一个以上的bean类型匹配就会出错-->
-    <bean id="person" class="xzq.spring.Autowire.Person" p:name="xzq" autowire="byType"></bean>
+    <bean id="person" class="xzq.spring.Autowire.Person" p:name="xzq" autowire="byName"></bean>
 
 
 

@@ -17,8 +17,9 @@ public class BeanPostProcessor implements org.springframework.beans.factory.conf
     @Override
     public Object postProcessAfterInitialization(Object bean, String beanName) throws BeansException {
         System.out.println("after"+bean+" "+beanName);
-        Car car=new Car();
-        car.setBrand("bmw");
-        return car;
+//        Car car=new Car();
+//        car.setBrand("bmw");
+//        return car;
+        return bean;
     }
 }
