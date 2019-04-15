@@ -20,6 +20,8 @@
     <!-- 通过构造方法来为bean的属性赋值-->
     <!--使用构造器注入属性的时候可以用index和type来区分重载的构造方法-->
     <bean id="car" class="xzq.spring.Car">
+        <!--也可以带value 就可以解决构造函数重载的问题了-->
+        <!--<constructor-arg name="" value=""></constructor-arg>-->
     <constructor-arg value="Audi" type="java.lang.String"></constructor-arg>
     <constructor-arg value="shanghai" type="java.lang.String"></constructor-arg>
     <constructor-arg value="300000" type="double"></constructor-arg>

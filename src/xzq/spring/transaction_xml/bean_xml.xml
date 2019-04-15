@@ -1,0 +1,51 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<beans xmlns="http://www.springframework.org/schema/beans"
+       xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+       xmlns:context="http://www.springframework.org/schema/context"
+       xmlns:tx="http://www.springframework.org/schema/tx"
+       xmlns:aop="http://www.springframework.org/schema/aop"
+       xsi:schemaLocation="http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans.xsd http://www.springframework.org/schema/context http://www.springframework.org/schema/context/spring-context.xsd http://www.springframework.org/schema/tx http://www.springframework.org/schema/tx/spring-tx.xsd http://www.springframework.org/schema/aop http://www.springframework.org/schema/aop/spring-aop.xsd">
+
+    <context:property-placeholder location="classpath:xzq/spring/transaction_xml/db.properties"></context:property-placeholder>
+      <bean  id="dataSource" class="com.mchange.v2.c3p0.DriverManagerDataSource">
+          <property name="user" value="${user}"></property>
+          <property name="password" value="${passwd}"></property>
+          <property name="driverClass" value="${driverClass}"></property>
+          <property name="jdbcUrl" value="${url}"></property>
+      </bean>
+
+    <bean id="jdbcTemplate" class="org.springframework.jdbc.core.JdbcTemplate">
+        <property name="dataSource" ref="dataSource"></property>
+    </bean>
+
+   <bean id="bookShopDao" class="xzq.spring.transaction_xml.BookShopDaoImpl">
+       <property name="jdbcTemplate" ref="jdbcTemplate"></property>
+   </bean>
+    <bean  id="bookShopService" class="xzq.spring.transaction_xml.BookShopServiceImpl">
+        <property name="bookshopDao" ref="bookShopDao"></property>
+    </bean>
+    <bean id="cashier" class="xzq.spring.transaction_xml.CashierImpl">
+        <property name="bookShopService" ref="bookShopService"></property>
+    </bean>
+
+     <!--配置事务管理器-->
+    <bean id="transactionManager" class="org.springframework.jdbc.datasource.DataSourceTransactionManager">
+        <property name="dataSource" ref="dataSource"></property>
+    </bean>
+
+
+    <!--配置事务属性-->
+    <tx:advice  id="txadvice" transaction-manager="transactionManager">
+        <tx:attributes>
+            <!--* 默认-->
+            <tx:method name="*"/>
+        </tx:attributes>
+    </tx:advice>
+
+    <!--配置事务切入点  以及把事务属性和切入点绑定  aop-->
+  <aop:config>
+      <aop:pointcut  expression="execution(* xzq.spring.transaction_xml.BookShopService.*(..))"  id="txPointCut"/>
+      <aop:advisor advice-ref="txadvice" pointcut-ref="txPointCut"/>
+  </aop:config>
+
+</beans>
